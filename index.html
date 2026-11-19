@@ -72,13 +72,24 @@ img[src$="bow.webp"]{scale:1.1235}
 .fx--seq{border-radius:1px}
 
 /* ---------- конверт ---------- */
-.envelope{position:fixed;inset:0;z-index:50;perspective:1600px;cursor:pointer;overflow:hidden;-webkit-tap-highlight-color:transparent}
-.env-body{position:absolute;inset:0;will-change:transform}
-.env-lining{position:absolute;inset:0;background:
+/* стол под конвертом — та же бумага, что у страницы */
+.envelope{position:fixed;inset:0;z-index:50;cursor:pointer;overflow:hidden;background:var(--paper) var(--tex) 0 0/360px;-webkit-tap-highlight-color:transparent}
+.envelope.is-done{background:transparent;pointer-events:none}
+.env-scene{position:absolute;inset:0;transform-origin:50% 50%;perspective:1500px;will-change:transform}
+.env-drop{position:absolute;inset:0;z-index:0;box-shadow:0 34px 70px -10px rgba(80,25,25,.32),0 6px 14px rgba(80,25,25,.12)}
+.env-scene > *{transition:opacity .55s ease}
+.env-scene.is-fading > :not(.letter){opacity:0}
+.env-lining{position:absolute;inset:0;z-index:1;background:
   radial-gradient(circle at 50% 50%,rgba(255,235,240,.7) 0 1.4px,transparent 2px) 0 0/20px 20px,
   radial-gradient(circle at 50% 50%,rgba(255,235,240,.7) 0 1.4px,transparent 2px) 10px 10px/20px 20px,
   radial-gradient(90% 70% at 50% 30%,#C7232F,#8A0C17)}
-.flap{position:absolute;inset:0}
+/* открытка внутри конверта */
+.letter{position:absolute;z-index:3;left:7%;width:86%;top:13%;height:74%;background:#FBF6F1 var(--tex-env) 0 0/360px;background-blend-mode:multiply;box-shadow:0 -4px 16px rgba(70,15,20,.2);will-change:transform,opacity}
+.letter__in{position:absolute;inset:4.5% 5.5%;border:1px solid rgba(179,18,31,.32);display:flex;flex-direction:column;align-items:center;padding-top:7%;text-align:center}
+.letter__d{font-family:var(--serif);font-weight:500;color:var(--red);font-size:clamp(26px,8.2vw,54px);line-height:1;text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap}
+.letter__s{font-family:var(--script);color:var(--brown);font-size:clamp(46px,13.5vw,96px);line-height:1;margin-top:.1em;white-space:nowrap}
+.letter__n{font-weight:600;font-size:clamp(12px,3.4vw,16px);letter-spacing:.24em;text-transform:uppercase;color:var(--red);margin-top:.5em}
+.flap{position:absolute;inset:0;z-index:4}
 .flap__paper{position:absolute;inset:0;background-blend-mode:multiply,normal}
 .flap--left{filter:drop-shadow(2px 0 5px rgba(110,40,40,.16))}
 .flap--right{filter:drop-shadow(-2px 0 5px rgba(110,40,40,.16))}
@@ -86,9 +97,19 @@ img[src$="bow.webp"]{scale:1.1235}
 .flap--left .flap__paper{clip-path:polygon(0 0,51% 50%,0 100%);background:var(--tex-env) 0 0/420px,linear-gradient(90deg,var(--env-2),var(--env-3))}
 .flap--right .flap__paper{clip-path:polygon(100% 0,49% 50%,100% 100%);background:var(--tex-env) 120px 0/420px,linear-gradient(270deg,var(--env-2),var(--env-3))}
 .flap--bottom .flap__paper{clip-path:polygon(0 100%,50% 45%,100% 100%);background:var(--tex-env) 60px 30px/420px,linear-gradient(0deg,var(--env-1),var(--env-2))}
-.env-shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(110,40,40,.10))}
-.flap--top{z-index:2;transform-origin:50% 0;will-change:transform;filter:drop-shadow(0 6px 10px rgba(100,30,30,.22))}
-.flap--top .flap__paper{clip-path:polygon(0 0,100% 0,50% 56%);background:var(--tex-env) 0 80px/420px,linear-gradient(180deg,#FAEEEC 10%,var(--env-2))}
+.env-shade{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(110,40,40,.10))}
+/* верхний клапан: снаружи бумага с маркой, изнутри подкладка в горошек */
+.flap-top{position:absolute;inset:0;z-index:6;transform-origin:50% 0;transform-style:preserve-3d;will-change:transform}
+.flap-top.is-back{z-index:2}
+.face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.face--back{transform:rotateX(180deg)}
+.face *{-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.face__shadow{position:absolute;inset:0;filter:drop-shadow(0 6px 10px rgba(100,30,30,.22))}
+.face--back .flap__paper{clip-path:polygon(0 100%,100% 100%,50% 44%);background:
+  radial-gradient(circle at 50% 50%,rgba(255,235,240,.65) 0 1.4px,transparent 2px) 0 0/20px 20px,
+  radial-gradient(circle at 50% 50%,rgba(255,235,240,.65) 0 1.4px,transparent 2px) 10px 10px/20px 20px,
+  linear-gradient(0deg,#8E0D18,#C7232F 70%)}
+.face--front .flap__paper{clip-path:polygon(0 0,100% 0,50% 56%);background:var(--tex-env) 0 80px/420px,linear-gradient(180deg,#FAEEEC 10%,var(--env-2))}
 .env-for{position:absolute;left:0;right:0;bottom:10%;text-align:center;line-height:1}
 .env-for .s{display:block;font-family:var(--script);font-size:clamp(66px,19vw,104px);color:var(--brown);transform:rotate(-6deg);margin-bottom:-2px}
 .env-for .t{display:block;font-style:italic;font-size:clamp(15px,4.2vw,18px);color:var(--red);letter-spacing:.02em}
@@ -104,9 +125,9 @@ img[src$="bow.webp"]{scale:1.1235}
 .stamp__t{position:absolute;left:0;right:0;bottom:5%;text-align:center;font-size:clamp(9px,2.6vw,12.5px);line-height:1.15;letter-spacing:.1em;text-transform:uppercase;color:var(--red-2);font-weight:600}
 .postmark{position:absolute;width:clamp(96px,27vw,150px);right:calc(max(7%,16px) + clamp(76px,22vw,116px));top:calc(max(5%,14px) + clamp(70px,20vw,110px));rotate:-12deg;opacity:.62;pointer-events:none}
 
-.env-hint{position:absolute;left:0;right:0;z-index:3;top:calc(56% + min(19vw,94px));text-align:center;font-style:italic;font-size:16px;color:var(--brown);animation:breathe 2.6s ease-in-out infinite;pointer-events:none}
+.env-hint{position:absolute;left:0;right:0;z-index:8;top:calc(56% + min(19vw,94px));text-align:center;font-style:italic;font-size:16px;color:var(--brown);animation:breathe 2.6s ease-in-out infinite;pointer-events:none}
 @keyframes breathe{50%{opacity:.45}}
-.seal{position:absolute;left:50%;top:56%;width:min(34vw,170px);aspect-ratio:1169/1228;transform:translate(-50%,-50%);border:0;background:none;padding:0;cursor:pointer;z-index:4;filter:drop-shadow(0 2px 2px rgba(60,6,12,.3)) drop-shadow(0 8px 10px rgba(70,8,14,.28));-webkit-tap-highlight-color:transparent;transition:scale .35s}
+.seal{position:absolute;left:50%;top:56%;width:min(34vw,170px);aspect-ratio:1169/1228;transform:translate(-50%,-50%);border:0;background:none;padding:0;cursor:pointer;z-index:7;filter:drop-shadow(0 2px 2px rgba(60,6,12,.3)) drop-shadow(0 8px 10px rgba(70,8,14,.28));-webkit-tap-highlight-color:transparent;transition:scale .35s}
 .seal:hover{scale:1.04}
 .seal:focus-visible{outline:2px solid var(--red);outline-offset:8px;border-radius:50%}
 .seal img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
@@ -116,8 +137,6 @@ img[src$="bow.webp"]{scale:1.1235}
 
 /* ---------- приглашение ---------- */
 .invite{position:relative;max-width:480px;margin:0 auto;padding-block:22px 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow-x:hidden;overflow-x:clip}
-.locked .invite{opacity:0;transform:translateY(28px) scale(.975)}
-.invite.rise{transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.8,.2,1)}
 
 .hero{position:relative;container-type:inline-size}
 .date{font-family:var(--serif);font-weight:500;text-transform:uppercase;color:var(--red);line-height:.95;letter-spacing:-.01em;white-space:nowrap;font-size:15cqw;text-align:center}
@@ -194,7 +213,8 @@ section{position:relative}
 .foot a:hover{border-color:var(--red)}
 
 /* широкий экран: коллаж по краям */
-.side{display:none}
+.side{display:none;opacity:0;transition:opacity .8s ease .4s}
+.side.is-in{opacity:1}
 @media (min-width:1000px){
   .side{display:block;position:absolute;left:0;right:0;top:0;height:1200px;pointer-events:none;overflow:hidden}
   .side img{position:absolute}
@@ -214,8 +234,10 @@ section{position:relative}
 
 <!-- ============ КОНВЕРТ ============ -->
 <div class="envelope" id="envelope">
-  <div class="env-body">
+  <div class="env-scene">
+    <div class="env-drop"></div>
     <div class="env-lining"></div>
+    <div class="letter" aria-hidden="true"><div class="letter__in"><p class="letter__d">12 декабря</p><p class="letter__s" lang="en">Happy Birthday</p><p class="letter__n">Алиса · 26</p></div></div>
     <div class="flap flap--left"><div class="flap__paper"></div></div>
     <div class="flap flap--right"><div class="flap__paper"></div></div>
     <div class="flap flap--bottom">
@@ -223,26 +245,29 @@ section{position:relative}
       <p class="env-for"><span class="s" lang="en">for you</span><span class="t">приглашение на день рождения</span></p>
     </div>
     <div class="env-shade"></div>
-  </div>
-  <div class="flap flap--top">
-    <div class="flap__paper"></div>
-    <div class="stamp-wrap" aria-hidden="true">
-      <div class="stamp"><div class="stamp__in"><img src="img/c/stamp-ball.webp" alt="" decoding="async"><span class="stamp__n">26</span><span class="stamp__t">почта подружек</span></div></div>
+    <div class="flap-top">
+      <div class="face face--front">
+        <div class="face__shadow"><div class="flap__paper"></div></div>
+        <div class="stamp-wrap" aria-hidden="true">
+          <div class="stamp"><div class="stamp__in"><img src="img/c/stamp-ball.webp" alt="" decoding="async"><span class="stamp__n">26</span><span class="stamp__t">почта подружек</span></div></div>
+        </div>
+        <svg class="postmark" viewBox="0 0 120 80" aria-hidden="true">
+          <g fill="none" stroke="#5A2A1E" stroke-width="1.6">
+            <circle cx="40" cy="40" r="30"/><circle cx="40" cy="40" r="24"/>
+            <path d="M74 26c6-4 10 4 16 0s10-4 16 0 8 4 12 2M74 40c6-4 10 4 16 0s10-4 16 0 8 4 12 2M74 54c6-4 10 4 16 0s10-4 16 0 8 4 12 2"/>
+          </g>
+          <text x="40" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#5A2A1E">12.12</text>
+          <text x="40" y="50" text-anchor="middle" font-family="Georgia,serif" font-size="7" letter-spacing="1" fill="#5A2A1E">МОСКВА</text>
+        </svg>
+      </div>
+      <div class="face face--back"><div class="flap__paper"></div></div>
     </div>
-    <svg class="postmark" viewBox="0 0 120 80" aria-hidden="true">
-      <g fill="none" stroke="#5A2A1E" stroke-width="1.6">
-        <circle cx="40" cy="40" r="30"/><circle cx="40" cy="40" r="24"/>
-        <path d="M74 26c6-4 10 4 16 0s10-4 16 0 8 4 12 2M74 40c6-4 10 4 16 0s10-4 16 0 8 4 12 2M74 54c6-4 10 4 16 0s10-4 16 0 8 4 12 2"/>
-      </g>
-      <text x="40" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#5A2A1E">12.12</text>
-      <text x="40" y="50" text-anchor="middle" font-family="Georgia,serif" font-size="7" letter-spacing="1" fill="#5A2A1E">МОСКВА</text>
-    </svg>
+    <button class="seal" id="seal" type="button" aria-label="Открыть приглашение">
+      <img class="seal__full" src="img/c/wax-seal.webp" alt="">
+      <img class="seal__l" src="img/c/wax-seal.webp" alt="">
+      <img class="seal__r" src="img/c/wax-seal.webp" alt="">
+    </button>
   </div>
-  <button class="seal" id="seal" type="button" aria-label="Открыть приглашение">
-    <img class="seal__full" src="img/c/wax-seal.webp" alt="">
-    <img class="seal__l" src="img/c/wax-seal.webp" alt="">
-    <img class="seal__r" src="img/c/wax-seal.webp" alt="">
-  </button>
   <p class="env-hint">нажми на печать</p>
 </div>
 
@@ -386,54 +411,74 @@ function startReveal() {
   items.forEach(i => io.observe(i));
 }
 
-/* конверт: печать трескается, клапан открывается, конверт уезжает вниз */
-const env = $('#envelope'), seal = $('#seal'), main = $('#invite');
+/* конверт: печать трескается → конверт отдаляется → клапан откидывается → открытка выезжает и тает в приглашение */
+const env = $('#envelope'), scene = $('.env-scene'), seal = $('#seal'), main = $('#invite');
 let opened = false;
 function showInvite() {
-  main.classList.add('rise');
   document.documentElement.classList.remove('locked');
   main.inert = false; main.removeAttribute('aria-hidden');
-  setTimeout(startReveal, 150);
-  setTimeout(() => main.classList.remove('rise'), 1300);
+  const side = $('.side'); if (side) side.classList.add('is-in');
+  startReveal();
 }
 function openEnvelope() {
   if (opened) return; opened = true;
-  const sr = seal.getBoundingClientRect();
   if (reduce) {
     showInvite();
     env.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, fill: 'forwards' }).finished.then(() => env.remove());
     return;
   }
-  const smooth = 'cubic-bezier(.65,0,.35,1)';
+  const inOut = 'cubic-bezier(.65,0,.35,1)', soft = 'cubic-bezier(.22,1,.36,1)';
+  const sr = seal.getBoundingClientRect();
+  // заранее распаковываем картинки первого экрана, чтобы в конце не было заминки
+  $$('.hero img, .side img').forEach(i => { if (i.decode) i.decode().catch(() => {}); });
   $('.env-hint').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: 'forwards' });
+  // 1. нажали на сургуч: он проседает и трескается на две половинки
   seal.animate([
     { transform: 'translate(-50%,-50%) scale(1)' },
     { transform: 'translate(-50%,-50%) scale(.92)' }
-  ], { duration: 170, easing: 'ease-out', fill: 'forwards' });
+  ], { duration: 150, easing: 'ease-out', fill: 'forwards' });
   setTimeout(() => {
     $('.seal__full').style.opacity = 0;
     const half = (sel, x1, r1, x2, r2) => { const el = $(sel); el.style.opacity = 1; el.animate([
       { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
       { transform: `translate(${x1}%,4%) rotate(${r1}deg)`, opacity: 1, offset: .35 },
-      { transform: `translate(${x2}%,120%) rotate(${r2}deg)`, opacity: 0 }
-    ], { duration: 1000, easing: 'cubic-bezier(.33,.5,.4,1)', fill: 'forwards' }); };
+      { transform: `translate(${x2}%,130%) rotate(${r2}deg)`, opacity: 0 }
+    ], { duration: 950, easing: 'cubic-bezier(.33,.5,.4,1)', fill: 'forwards' }); };
     half('.seal__l', -30, -18, -64, -50);
     half('.seal__r', 30, 16, 66, 46);
-    burst(sr.left + sr.width / 2, sr.top + sr.height / 2, 44);
-  }, 170);
-  // верхний клапан открывается к нам и уходит наверх
-  $('.flap--top').animate([
-    { transform: 'rotateX(0deg)', opacity: 1 },
-    { opacity: 1, offset: .5 },
-    { transform: 'rotateX(165deg)', opacity: 0 }
-  ], { duration: 950, delay: 320, easing: smooth, fill: 'forwards' });
-  // сам конверт плавно уезжает вниз, под ним уже приглашение
-  $('.env-body').animate([
-    { transform: 'translateY(0)' },
-    { transform: 'translateY(104%)' }
-  ], { duration: 1000, delay: 900, easing: smooth, fill: 'forwards' });
-  setTimeout(showInvite, 950);
-  setTimeout(() => env.remove(), 2000);
+    burst(sr.left + sr.width / 2, sr.top + sr.height / 2, 34);
+  }, 150);
+  // 2. конверт чуть отдаляется: его видно целиком, сверху место для клапана и открытки
+  const tall = innerHeight > innerWidth * 1.2;
+  const k = tall ? .72 : .62, dy = tall ? 15 : 17;
+  scene.animate([
+    { transform: 'translateY(0) scale(1)' },
+    { transform: `translateY(${dy}%) scale(${k})` }
+  ], { duration: 900, delay: 150, easing: inOut, fill: 'forwards' });
+  // 3. клапан откидывается назад и показывает подкладку
+  const flap = $('.flap-top');
+  flap.animate([
+    { transform: 'rotateX(0deg)' },
+    { transform: 'rotateX(-180deg)' }
+  ], { duration: 850, delay: 700, easing: 'cubic-bezier(.45,0,.2,1)', fill: 'forwards' });
+  setTimeout(() => flap.classList.add('is-back'), 700 + 400);
+  // 4. открытка выезжает из конверта
+  const letter = $('.letter');
+  letter.animate([
+    { transform: 'translateY(0) scale(1)' },
+    { transform: 'translateY(-56%) scale(1)' }
+  ], { duration: 950, delay: 1400, easing: soft, fill: 'forwards' });
+  // 5. конверт растворяется, открытка приближается и тает, под ней уже приглашение
+  setTimeout(() => {
+    scene.classList.add('is-fading');
+    letter.animate([
+      { transform: 'translateY(-56%) scale(1)', opacity: 1 },
+      { opacity: 1, offset: .2 },
+      { transform: 'translateY(-40%) scale(1.3)', opacity: 0 }
+    ], { duration: 750, easing: inOut, fill: 'forwards' });
+  }, 2300);
+  setTimeout(() => { env.classList.add('is-done'); showInvite(); }, 2700);
+  setTimeout(() => env.remove(), 3300);
 }
 env.addEventListener('click', openEnvelope);
 
