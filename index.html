@@ -38,13 +38,13 @@
   --serif:"Noto Serif Display","Georgia",serif;
   --text:"Noto Serif","Georgia",serif;
   --script:"Mrs Saint Delafield","Snell Roundhand",cursive;
-  --tex:url("img/c/paper-3.webp");
+  --tex:url("img/c/paper.webp");
   --tex-env:url("img/c/paper.webp");
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 html.locked,html.locked body{overflow:hidden;height:100%}
-body{font-family:var(--text);font-size:17px;color:var(--ink);background:var(--paper) var(--tex) 0 0/360px;min-height:100svh;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.45}
+body{font-family:var(--text);font-size:17px;color:var(--ink);background:var(--paper) var(--tex) 0 0/420px;background-blend-mode:multiply;min-height:100svh;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.45}
 img{display:block;max-width:none}
 button{font:inherit}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -73,7 +73,7 @@ img[src$="bow.webp"]{scale:1.1235}
 
 /* ---------- конверт ---------- */
 /* стол под конвертом — та же бумага, что у страницы */
-.envelope{position:fixed;inset:0;z-index:50;cursor:pointer;overflow:hidden;background:var(--paper) var(--tex) 0 0/360px;-webkit-tap-highlight-color:transparent}
+.envelope{position:fixed;inset:0;z-index:50;cursor:pointer;overflow:hidden;background:var(--paper) var(--tex) 0 0/420px;background-blend-mode:multiply;-webkit-tap-highlight-color:transparent}
 .envelope.is-done{background:transparent;pointer-events:none}
 .env-scene{position:absolute;inset:0;transform-origin:50% 50%;perspective:1500px;will-change:transform}
 .env-drop{position:absolute;inset:0;z-index:0;box-shadow:0 34px 70px -10px rgba(80,25,25,.32),0 6px 14px rgba(80,25,25,.12)}
